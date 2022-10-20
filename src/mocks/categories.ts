@@ -46,3 +46,5 @@ export const categories = [
     descricao: 'Curta suas músicas e seus filmes com a melhor qualidade!',
   },
 ];
+
+export type CategoryProps = typeof categories[0];
