@@ -3,6 +3,7 @@ import { ReactComponent as Logo } from '../../assets/logo.svg';
 import { Link, useLocation } from 'react-router-dom';
 import classNames from 'classnames';
 import { ShoppingCart } from 'phosphor-react';
+import { Search } from '../Search';
 
 export const Navbar: React.FC = () => {
   const { pathname } = useLocation();
@@ -20,7 +21,9 @@ export const Navbar: React.FC = () => {
         </Link>
       </div>
 
-      <div className={styles.busca}></div>
+      <div className={styles.busca}>
+        <Search />
+      </div>
       <div className={styles.icones}>
         <Link to="/carrinho">
           <ShoppingCart weight={pathname === '/carrinho' ? 'fill' : 'regular'} size={24} />
