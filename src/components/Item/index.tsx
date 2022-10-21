@@ -1,6 +1,8 @@
 import { Heart, ShoppingCart } from 'phosphor-react';
-import { useDispatch } from 'react-redux';
+import { useDispatch, useSelector } from 'react-redux';
 import { ItemProps } from '../../mocks/items';
+import { StoreState } from '../../store';
+import { addProductToCard } from '../../store/reducers/cart';
 import { handleFavorites } from '../../store/reducers/items';
 import styles from './Item.module.scss';
 
@@ -9,11 +11,21 @@ const iconeProps = {
   color: '#041833',
 };
 
-export const Item: React.FC<ItemProps> = ({ descricao, favorito, foto, id, preco, titulo }) => {
+export const Item: React.FC<ItemProps> = (props) => {
+  const { descricao, favorito, foto, id, preco, titulo } = props;
   const dispatch = useDispatch();
+  const { cart } = useSelector((state: StoreState) => ({
+    cart: state.cart,
+  }));
+
+  const isProductInCart = () => cart.find((i) => i.item.id === id);
 
   const resolveFavorites = () => {
     dispatch(handleFavorites(id));
+  };
+
+  const resolveCart = () => {
+    dispatch(addProductToCard(props));
   };
 
   return (
@@ -34,9 +46,11 @@ export const Item: React.FC<ItemProps> = ({ descricao, favorito, foto, id, preco
             <Heart {...iconeProps} weight={favorito ? 'fill' : 'regular'} onClick={resolveFavorites} />
             <ShoppingCart
               {...iconeProps}
-              color={false ? '#1875E8' : iconeProps.color}
+              color={isProductInCart() ? '#1875E8' : iconeProps.color}
               className={styles['item-acao']}
+              onClick={resolveCart}
             />
+            <span>{isProductInCart()?.quantity}</span>
           </div>
         </div>
       </div>

@@ -9,7 +9,7 @@ const itemsSlice = createSlice<ItemProps[], ItemsReducers, 'items'>({
   name: 'items',
   initialState: items,
   reducers: {
-    handleFavorites: (state: ItemProps[], action: PayloadAction<string>) => {
+    handleFavorites: (state, action) => {
       state = state.map((i) => {
         if (i.id === action.payload) i.favorito = !i.favorito;
         return i;

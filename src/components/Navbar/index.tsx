@@ -1,12 +1,13 @@
-import styles from './Navbar.module.scss';
-import { ReactComponent as Logo } from '../../assets/logo.svg';
-import { Link, useLocation } from 'react-router-dom';
 import classNames from 'classnames';
 import { ShoppingCart } from 'phosphor-react';
+import { Link, useLocation } from 'react-router-dom';
+import { ReactComponent as Logo } from '../../assets/logo.svg';
 import { Search } from '../Search';
+import styles from './Navbar.module.scss';
 
 export const Navbar: React.FC = () => {
   const { pathname } = useLocation();
+
   return (
     <nav className={styles.nav}>
       <Logo className={styles.logo} />
