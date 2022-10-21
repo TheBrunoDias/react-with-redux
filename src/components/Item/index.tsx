@@ -1,8 +1,9 @@
-import { Heart, ShoppingCart } from 'phosphor-react';
+import classNames from 'classnames';
+import { Heart, ShoppingCart, Trash } from 'phosphor-react';
 import { useDispatch, useSelector } from 'react-redux';
 import { ItemProps } from '../../mocks/items';
 import { StoreState } from '../../store';
-import { addProductToCard } from '../../store/reducers/cart';
+import { addProductToCard, removeProductFromCart } from '../../store/reducers/cart';
 import { handleFavorites } from '../../store/reducers/items';
 import styles from './Item.module.scss';
 
@@ -11,8 +12,8 @@ const iconeProps = {
   color: '#041833',
 };
 
-export const Item: React.FC<ItemProps> = (props) => {
-  const { descricao, favorito, foto, id, preco, titulo } = props;
+export const Item: React.FC<ItemProps & { isCartPage?: boolean }> = (props) => {
+  const { descricao, favorito, foto, id, preco, titulo, isCartPage } = props;
   const dispatch = useDispatch();
   const { cart } = useSelector((state: StoreState) => ({
     cart: state.cart,
@@ -24,12 +25,20 @@ export const Item: React.FC<ItemProps> = (props) => {
     dispatch(handleFavorites(id));
   };
 
-  const resolveCart = () => {
+  const resolveAddToCart = () => {
     dispatch(addProductToCard(props));
   };
 
+  const resolveRemoveFromCart = () => {
+    dispatch(removeProductFromCart(id));
+  };
+
   return (
-    <div className={styles.item}>
+    <div
+      className={classNames(styles.item, {
+        [styles.itemNoCarrinho]: isCartPage,
+      })}
+    >
       <div className={styles['item-image']}>
         <img src={foto} alt={titulo} />
       </div>
@@ -48,9 +57,17 @@ export const Item: React.FC<ItemProps> = (props) => {
               {...iconeProps}
               color={isProductInCart() ? '#1875E8' : iconeProps.color}
               className={styles['item-acao']}
-              onClick={resolveCart}
+              onClick={resolveAddToCart}
             />
             <span>{isProductInCart()?.quantity}</span>
+            {isProductInCart() && (
+              <Trash
+                {...iconeProps}
+                color={isProductInCart() ? '#e85a18' : iconeProps.color}
+                className={styles['item-acao']}
+                onClick={resolveRemoveFromCart}
+              />
+            )}
           </div>
         </div>
       </div>

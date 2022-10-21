@@ -53,4 +53,10 @@
       width: 100%;
     }
   }
+
+  &.no-image {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+  }
 }
