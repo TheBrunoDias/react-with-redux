@@ -14,7 +14,7 @@ export const Navbar: React.FC = () => {
         <Link
           to="/"
           className={classNames(styles.link, {
-            [styles.selected]: pathname,
+            [styles.selected]: pathname === '/',
           })}
         >
           Página Inicial
@@ -26,7 +26,7 @@ export const Navbar: React.FC = () => {
       </div>
       <div className={styles.icones}>
         <Link to="/carrinho">
-          <ShoppingCart weight={pathname === '/carrinho' ? 'fill' : 'regular'} size={24} />
+          <ShoppingCart color="#ffffff" weight={pathname === '/carrinho' ? 'fill' : 'regular'} size={24} />
         </Link>
       </div>
     </nav>
